@@ -41,13 +41,11 @@ class ExtendedClient extends Client {
 
 const client = new ExtendedClient({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildEmojisAndStickers] });
 
-client.once("ready", () => client.success(`${client.user.username} is ready`));
-
 process.on("uncaughtException", (err) => client.err(err));
 
 export default client;
 
-// import { events } from "./Handlers/events.js";
-// events();
+import { events } from "./Handlers/events.js";
+events();
 
 client.login(process.env.TOKEN);
