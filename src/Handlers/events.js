@@ -8,8 +8,8 @@ export async function events() {
 	for (const file of events) {
 		const event = await import(`../Events/${file}`);
 
-		if (event.default.once) client.once(event.default.name, (...args) => event.default.run(...args));
-		else client.on(event.default.name, (...args) => event.default.run(...args));
+		if (event.default.once) client.once(event.default.name, async (...args) => await event.default.run(...args));
+		else client.on(event.default.name, async (...args) => await event.default.run(...args));
 	}
 
 	return true;

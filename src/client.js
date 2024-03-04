@@ -9,17 +9,12 @@ class ExtendedClient extends Client {
 	constructor(options) {
 		super(options);
 		this.clr = "#d40000";
+
 		this.games = new Map();
+		this.invites = new Map();
+
 		this.embeds = {};
-	}
-	rawData(name) {
-		return data[name];
-	}
-	emoji(name) {
-		return this.emojis.cache.get(data.logs[name]).toString();
-	}
-	emojiData(name) {
-		return this.emojis.cache.get(data.logs[name]);
+		this.components = {};
 	}
 	log(color, tag, msg) {
 		const time = new Date();
