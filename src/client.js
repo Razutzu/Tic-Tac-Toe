@@ -34,7 +34,7 @@ class ExtendedClient extends Client {
 	}
 }
 
-const client = new ExtendedClient({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildEmojisAndStickers] });
+const client = new ExtendedClient({ intents: [GatewayIntentBits.Guilds] });
 
 process.on("uncaughtException", (err) => client.err(err));
 

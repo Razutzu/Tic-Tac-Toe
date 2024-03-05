@@ -10,12 +10,18 @@ export default {
 	run: async (interaction) => {
 		if (client.games.get(interaction.channel.id)) return await interaction.reply({ embeds: [client.embeds.alreadyGame], ephemeral: true }).catch((err) => client.err(err));
 
-		const user = interaction.options.getUser("user");
-		const invite = client.invites.get(interaction.channel.id);
-		if (!invite) {
-			if (user.bot) return interaction.reply({ embeds: [client.embeds.userIsBot], ephemeral: true }).catch((err) => client.err(err));
+		if (client.invites.get(interaction.channel.id)) return await interaction.reply({ embeds: [client.embeds.alreadyInvite], ephemeral: true }).catch((err) => client.err(err));
 
-			client.invites.set(interaction.channel.id, { from: interaction.user, to: user });
-		}
+		const user = interaction.options.getUser("user");
+
+		if (user.bot) return await interaction.reply({ embeds: [client.embeds.userIsBot], ephemeral: true }).catch((err) => client.err(err));
+
+		client.invites.set(interaction.channel.id, { from: interaction.user, to: user });
+
+		await interaction.channel
+			.send({ content: `${user.toString()}, do you want to play with ${interaction.user.toString()}`, components: [client.components.invite] })
+			.catch((err) => client.err(err));
+
+		return await interaction.reply({ embeds: [client.embeds.inviteSent], ephemeral: true }).catch((err) => client.err(err));
 	},
 };
