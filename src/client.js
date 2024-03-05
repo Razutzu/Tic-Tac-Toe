@@ -15,6 +15,8 @@ class ExtendedClient extends Client {
 
 		this.embeds = {};
 		this.components = {};
+
+		this.inviteTimeoutInMs = 30000;
 	}
 	log(color, tag, msg) {
 		const time = new Date();

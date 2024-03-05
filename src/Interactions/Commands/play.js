@@ -16,11 +16,20 @@ export default {
 
 		if (user.bot) return await interaction.reply({ embeds: [client.embeds.userIsBot], ephemeral: true }).catch((err) => client.err(err));
 
-		client.invites.set(interaction.channel.id, { from: interaction.user, to: user });
-
-		await interaction.channel
+		const message = await interaction.channel
 			.send({ content: `${user.toString()}, do you want to play with ${interaction.user.toString()}`, components: [client.components.invite] })
 			.catch((err) => client.err(err));
+
+		if (message)
+			client.invites.set(interaction.channel.id, {
+				from: interaction.user,
+				to: user,
+				message,
+				timeout: setTimeout(() => {
+					message.edit({ content: `${user.toString()} didn't respond.`, components: [] }).catch((err) => client.err(err));
+					client.invites.delete(interaction.channel.id);
+				}, client.inviteTimeoutInMs),
+			});
 
 		return await interaction.reply({ embeds: [client.embeds.inviteSent], ephemeral: true }).catch((err) => client.err(err));
 	},

@@ -6,5 +6,9 @@ export default {
 
 		const invite = client.invites.get(interaction.channel.id);
 		if (!invite) return await interaction.reply({ embeds: [client.embeds.noInvite], ephemeral: true }).catch((err) => client.err(err));
+
+		if (invite.to != interaction.user) return await interaction.reply({ embeds: [client.embeds.noInvite], ephemeral: true }).catch((err) => client.err(err));
+
+		clearTimeout(invite.timeout);
 	},
 };
